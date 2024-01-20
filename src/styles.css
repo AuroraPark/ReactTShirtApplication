@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,600;1,900&display=swap');
+@import url('https://rsms.me/inter/inter.css');
+
+html {
+  font-family: 'Inter', sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -15,7 +22,8 @@ body,
 }
 
 body {
-  background-color: #f0f0f0;
+  background: #f0f0f0;
+  font-family: 'Inter', sans-serif;
 }
 
 canvas {
@@ -23,6 +31,7 @@ canvas {
 }
 
 /* INTRO */
+
 .container {
   position: absolute;
   top: 0;
@@ -75,7 +84,7 @@ section {
 
 .section--container h1 {
   font-weight: 900;
-  font-size: 16vw;
+  font-size: 20vh;
   letter-spacing: -6px;
   font-style: italic;
   width: 30%;
@@ -202,4 +211,31 @@ button:hover {
 
 .exit:hover {
   box-shadow: inset -250px 0 0 0 black;
+}
+
+/* MOBILE ADJUSTMENTS */
+@media screen and (max-width: 600px) {
+  .section--container {
+    margin-left: 15vw;
+  }
+
+  .section--container h1 {
+    font-size: 8rem;
+    letter-spacing: -6px;
+    line-height: 6rem;
+  }
+
+  .color-options {
+    margin-bottom: 20px;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+  }
+
+  .support--content {
+    top: -10%;
+    left: 0;
+  }
 }

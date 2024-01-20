@@ -18,6 +18,7 @@ import { state } from './store'
 export const App = ({ position = [0, 0, 2.5], fov = 25 }) => (
   <Canvas
     shadows
+    gl={{ preserveDrawingBuffer: true }}
     eventSource={document.getElementById('root')}
     eventPrefix="client"
     camera={{ position, fov }}>

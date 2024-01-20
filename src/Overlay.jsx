@@ -8,6 +8,7 @@ import {
 
 import { useSnapshot } from 'valtio'
 import { state } from './store'
+import { motion } from 'framer-motion'
 
 export default function Overay() {
   const snap = useSnapshot(state)
@@ -52,6 +53,8 @@ function Intro() {
 }
 
 function Customizer() {
+  const snap = useSnapshot(state)
+
   const colors = [
     '#ccc',
     '#EFBD4E',
@@ -91,13 +94,27 @@ function Customizer() {
             ))}
           </div>
         </div>
-        <button className="share" style={{ background: state.selectedColor }}>
+        <button
+          className="share"
+          style={{ background: snap.selectedColor }}
+          onClick={() => {
+            const link = document.createElement('a')
+            link.setAttribute('download', 'canvas.png')
+            link.setAttribute(
+              'href',
+              document
+                .querySelector('canvas')
+                .toDataURL('image/png')
+                .replace('image/png', 'image/octet-stream')
+            )
+            link.click()
+          }}>
           DOWNLOAD
           <AiFillCamera size="1.3em" />
         </button>
         <button
           className="exit"
-          style={{ background: state.selectedColor }}
+          style={{ background: snap.selectedColor }}
           onClick={() => (state.intro = true)}>
           GO BACK
           <AiOutlineArrowLeft size="1.3em" />
