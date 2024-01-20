@@ -8,51 +8,67 @@ import {
 
 import { useSnapshot } from 'valtio'
 import { state } from './store'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Overay() {
   const snap = useSnapshot(state)
-  console.log(snap)
+
+  const transition = { type: 'spring', duration: 0.8 }
+
+  const config = {
+    initial: { x: -100, opacity: 0, transition: { ...transition, delay: 0.5 } },
+    animate: { x: 0, opacity: 1, transition: { ...transition, delay: 0 } },
+    exit: { x: -100, opacity: 0, transition: { ...transition, delay: 0 } }
+  }
+
   return (
     <div className="container">
-      <header>
+      <motion.header
+        initial={{ opacity: 0, y: -100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', duration: 1.2, delay: 0.5 }}>
         <Logo width="40" height="40" />
         <AiOutlineShopping size="3em" />
-      </header>
-      {snap.intro ? <Intro /> : <Customizer />}
+      </motion.header>
+
+      <AnimatePresence>
+        {snap.intro ? (
+          <Intro key="main" config={config} />
+        ) : (
+          <Customizer key="custom" config={config} />
+        )}
+      </AnimatePresence>
     </div>
   )
 }
 
-function Intro() {
+function Intro({ config }) {
   return (
-    <div>
-      <section key="main">
-        <div className="section--container">
+    <motion.section {...config} key="main">
+      <div className="section--container">
+        <div>
+          <h1>JUST DO IT.</h1>
+        </div>
+        <div className="support--content">
           <div>
-            <h1>JUST DO IT.</h1>
-          </div>
-          <div className="support--content">
-            <div>
-              <p>
-                Create your unique and exclusive shirt with our brand-new 3D
-                customization tool. <strong>Unleash your imagination</strong>{' '}
-                and define your own style.
-              </p>
-              <button
-                style={{ background: 'black' }}
-                onClick={() => (state.intro = false)}>
-                CUSTOMIZE IT <AiOutlineHighlight size="1.3em" />
-              </button>
-            </div>
+            <p>
+              Create your unique and exclusive shirt with our brand-new 3D
+              customization tool. <strong>Unleash your imagination</strong> and
+              define your own style.
+            </p>
+            <button
+              style={{ background: 'black' }}
+              onClick={() => (state.intro = false)}>
+              CUSTOMIZE IT <AiOutlineHighlight size="1.3em" />
+            </button>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </motion.section>
   )
 }
 
-function Customizer() {
+function Customizer({ config }) {
   const snap = useSnapshot(state)
 
   const colors = [
@@ -67,7 +83,7 @@ function Customizer() {
   const decals = ['react', 'three2', 'pmndrs']
 
   return (
-    <section key="custom">
+    <motion.section {...config} key="custom">
       <div className="customizer">
         <div className="color-options">
           {colors.map((color) => (
@@ -120,6 +136,6 @@ function Customizer() {
           <AiOutlineArrowLeft size="1.3em" />
         </button>
       </div>
-    </section>
+    </motion.section>
   )
 }
